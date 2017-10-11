@@ -11,7 +11,6 @@ describe('solvers', function() {
             return memo + col;
           }, 0);
         }, 0);
-
         expect(solutionBoard.get('n')).to.equal(n);
         expect(numPieces).to.equal(n);
         expect(solutionBoard.hasAnyRooksConflicts()).to.be.equal(false);
@@ -44,6 +43,9 @@ describe('solvers', function() {
             return memo + col;
           }, 0);
         }, 0);
+        console.log(`TEST - solutionBoard.get('n') =  ${solutionBoard.get('n')}, n = ${n}`)
+        console.log(`TEST - numPieces: ${numPieces}, n = ${n}`)
+        console.log(`TEST - hasAnyQueensConflicts: ${solutionBoard.hasAnyQueensConflicts()}, false`)
 
         expect(solutionBoard.get('n')).to.equal(n);
         expect(numPieces).to.equal(n);
@@ -52,12 +54,17 @@ describe('solvers', function() {
 
       // Check 2 and 3 for no solution
       [2, 3].map(function (n) {
+        //debugger
         var solutionBoard = new Board(findNQueensSolution(n));
         var numPieces = _.reduce(solutionBoard.rows(), function(memo, row) {
           return memo + _.reduce(row, function(memo, col) {
             return memo + col;
           }, 0);
         }, 0);
+
+        console.log(`TEST - numPieces: ${numPieces}, n = 0`)
+        console.log(`TEST - solutionBoard.get('n') =  ${solutionBoard.get('n')}, n = ${n}`)
+        //console.log(`TEST - hasAnyQueensConflicts: ${solutionBoard.hasAnyQueensConflicts()}, false`)
 
         expect(numPieces).to.equal(0);
         expect(solutionBoard.get('n')).to.equal(n);

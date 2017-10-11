@@ -79,12 +79,29 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      let row = this.rows()[rowIndex]
+      let n = this.get('n')
+      let rowAlreadyHasPiece = false
+      
+      for (let column = 0; column < n; column++) {
+        if (row[column] === 1) { 
+          if (rowAlreadyHasPiece === false) { rowAlreadyHasPiece = true } 
+          else { return true }
+        }
+      }
+      return false
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      let boardRows = this.rows()
+      let n = this.get('n')
+      
+      for (let boardRow = 0; boardRow < n; boardRow++) {
+        if ( this.hasRowConflictAt(boardRow) ) { return true }
+      }
+
+      return false
     },
 
 
@@ -94,12 +111,32 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      let boardRows = this.rows()
+      let n = this.get('n')
+      let colAlreadyHasPiece = false
+
+      for (let row = 0; row < n; row++) {
+        if ( boardRows[row][colIndex] === 1 ) {
+          if ( colAlreadyHasPiece ) {
+            return true
+          } else {
+            colAlreadyHasPiece = true
+          }
+        }        
+      }
+
+      return false
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      let n = this.get('n')
+      
+      for (let col = 0; col < n; col++) {
+        if ( this.hasColConflictAt(col) ) { return true }
+      }
+
+      return false
     },
 
 
@@ -109,11 +146,42 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      let boardMatrix = this.rows()
+      let colIndex = majorDiagonalColumnIndexAtFirstRow
+      let rowIndex = 0
+      let diagonalAlreadyHasPiece = false
+      let rowLength = boardMatrix.length
+
+      while (true) {
+        if ( this._isInBounds(rowIndex, colIndex) && boardMatrix[rowIndex][colIndex] === 1) {
+          if ( diagonalAlreadyHasPiece ) {
+            return true
+          } else {
+            diagonalAlreadyHasPiece = true            
+          }
+        } else if ( rowIndex === rowLength) {
+          break
+        }
+        rowIndex++
+        colIndex++
+      }
+
+      return false
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      let lastRow = this.rows().length - 1
+      let firstCol = 0
+      let n = this.get('n')
+
+      const startIndex = this._getFirstRowColumnIndexForMajorDiagonalOn(lastRow, firstCol)
+      for (let index = startIndex; index < n; index++) {
+        if ( this.hasMajorDiagonalConflictAt(index) ) {
+          return true
+        }
+      }
+
       return false; // fixme
     },
 
@@ -124,12 +192,42 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      let boardMatrix = this.rows()
+      let col = minorDiagonalColumnIndexAtFirstRow
+      let row = 0
+      let rowLength = boardMatrix.length
+      let diagonalAlreadyHasPiece = false
+
+      while (true) {
+        if (this._isInBounds(row, col) && boardMatrix[row][col] === 1) {
+          if ( diagonalAlreadyHasPiece ) {
+            return true
+          } else {
+            diagonalAlreadyHasPiece = true
+          }
+        } else if ( row === rowLength ) {
+          break
+        }
+        row++
+        col--
+      }
+      return false
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      let boardMatrix = this.rows()
+      let lastCol = this.get('n') - 1
+      let lastRow = boardMatrix.length - 1
+      const startIndex = this._getFirstRowColumnIndexForMinorDiagonalOn(lastRow, lastCol)
+
+      for (let index = startIndex; index > -1; index--) {
+        if ( this.hasMinorDiagonalConflictAt(index) ) {
+          return true
+        }
+      }
+
+      return false
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
