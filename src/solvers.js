@@ -209,21 +209,3 @@ window.countNQueensSolutions = function(n) {
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 }
-
-
-// const board = new Board({n})
-// solution = board.rows()
-// rowLength = solution.length
-// colLength = solution[0].length
-
-// for (let row = 0; row < rowLength; row++) {
-//   for (let col = 0; col < colLength; col++) {
-//     board.togglePiece(row, col)
-//     if ( board.hasAnyRooksConflicts(row, col) ) {
-//       board.togglePiece(row, col)
-//     }
-//   }
-// }
-
-// console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-// return solution;
